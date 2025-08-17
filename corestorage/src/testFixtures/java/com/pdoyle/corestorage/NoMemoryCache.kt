@@ -1,6 +1,6 @@
 package com.pdoyle.corestorage
 
-internal object NoMemoryCache : MemoryCache {
+object NoMemoryCache : MemoryCache {
 
     override fun <T> get(key: String): T? {
         return null
@@ -19,14 +19,15 @@ internal object NoMemoryCache : MemoryCache {
     }
 
     override fun clear() {
-        return Unit
     }
 
     override fun remove(key: String) {
-        return Unit
     }
 
     override fun contains(key: String): Boolean {
         return false
+    }
+
+    override fun trim() {
     }
 }

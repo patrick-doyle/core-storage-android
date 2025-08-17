@@ -6,8 +6,8 @@ import org.junit.jupiter.api.Test
 
 class DefaultMemoryCacheTest {
 
-    private val testData1 = "test-data-1"
-    private val testData2 = "test-data-2"
+    private val testStorageData1 = "test-data-1"
+    private val testStorageData2 = "test-data-2"
 
     private val testKey1 = "test-key-1"
     private val testKey2 = "test-key-2"
@@ -22,16 +22,16 @@ class DefaultMemoryCacheTest {
 
     @Test
     fun readAndWrite() {
-        memoryCache.put(testKey1, testData1)
+        memoryCache.put(testKey1, testStorageData1)
 
         val data = memoryCache.get<String>(testKey1)
 
-        Truth.assertThat(data).isEqualTo(testData1)
+        Truth.assertThat(data).isEqualTo(testStorageData1)
     }
 
     @Test
     fun contains() {
-        memoryCache.put(testKey1, testData1)
+        memoryCache.put(testKey1, testStorageData1)
 
         val contains1 = memoryCache.contains(testKey1)
         val contains2 = memoryCache.contains(testKey2)
@@ -42,7 +42,7 @@ class DefaultMemoryCacheTest {
 
     @Test
     fun remove() {
-        memoryCache.put(testKey1, testData1)
+        memoryCache.put(testKey1, testStorageData1)
 
         memoryCache.remove(testKey1)
         val contains1 = memoryCache.contains(testKey1)
@@ -52,7 +52,7 @@ class DefaultMemoryCacheTest {
 
     @Test
     fun clear() {
-        memoryCache.put(testKey1, testData1)
+        memoryCache.put(testKey1, testStorageData1)
 
         memoryCache.clear()
         val contains1 = memoryCache.contains(testKey1)
@@ -62,49 +62,49 @@ class DefaultMemoryCacheTest {
 
     @Test
     fun getOrPutEntryExists() {
-        memoryCache.put(testKey1, testData1)
+        memoryCache.put(testKey1, testStorageData1)
 
         val data = memoryCache.getOrPut(testKey1) {
-            testData2
+            testStorageData2
         }
 
-        Truth.assertThat(data).isEqualTo(testData1)
+        Truth.assertThat(data).isEqualTo(testStorageData1)
     }
 
     @Test
     fun getOrPutEntryMissing() {
         val data = memoryCache.getOrPut(testKey1) {
-            testData2
+            testStorageData2
         }
 
-        Truth.assertThat(data).isEqualTo(testData2)
+        Truth.assertThat(data).isEqualTo(testStorageData2)
     }
 
     @Test
     fun getOrDefaultEntryExists() {
-        memoryCache.put(testKey1, testData1)
+        memoryCache.put(testKey1, testStorageData1)
 
-        val data = memoryCache.getOrDefault(testKey1, testData2)
+        val data = memoryCache.getOrDefault(testKey1, testStorageData2)
 
-        Truth.assertThat(data).isEqualTo(testData1)
+        Truth.assertThat(data).isEqualTo(testStorageData1)
     }
 
     @Test
     fun getOrDefaultEntryMissing() {
-        val data = memoryCache.getOrDefault(testKey1, testData2)
+        val data = memoryCache.getOrDefault(testKey1, testStorageData2)
 
-        Truth.assertThat(data).isEqualTo(testData2)
+        Truth.assertThat(data).isEqualTo(testStorageData2)
     }
 
     @Test
     fun lruEvictsEldestEntry() {
-        memoryCache.put(testKey1, testData1)
+        memoryCache.put(testKey1, testStorageData1)
         // overfill cache
         for (i in 1..cacheMaxSize) {
             memoryCache.put("test-fill-key-$i", "test-fill-data-$i")
         }
 
-        memoryCache.put(testKey2, testData2)
+        memoryCache.put(testKey2, testStorageData2)
 
         val contains1 = memoryCache.contains(testKey1)
         val contains2 = memoryCache.contains(testKey2)

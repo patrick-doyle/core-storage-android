@@ -1,9 +1,9 @@
 package com.pdoyle.corestorage
 
-import java.time.Instant
-import kotlin.time.Duration
 import okio.BufferedSink
 import okio.BufferedSource
+import java.time.Instant
+import kotlin.time.Duration
 
 /**
  * Gets the data from the cache using the default @see [storageJsonDeserializer]

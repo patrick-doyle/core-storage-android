@@ -13,9 +13,6 @@ android {
         minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments += mutableMapOf(
-            "runnerBuilder" to "de.mannodermaus.junit5.AndroidJUnit5Builder"
-        )
 
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -25,6 +22,8 @@ android {
             it.useJUnitPlatform()
         }
     }
+    @Suppress("UnstableApiUsage")
+    testFixtures.enable = true
 
     buildTypes {
         release {
@@ -49,9 +48,14 @@ dependencies {
     implementation(libs.kotlin.serialization.json)
     implementation(libs.okio)
 
+    testFixturesImplementation(libs.okio)
+    testFixturesImplementation(libs.kotlin.serialization.json)
+
     testImplementation(libs.bundles.unitTests)
     testRuntimeOnly(libs.junit.jupiter.engine)
 
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(testFixtures(project))
+    androidTestImplementation(libs.truth)
     androidTestImplementation(libs.androidx.espresso.core)
 }

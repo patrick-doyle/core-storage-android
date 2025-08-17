@@ -2,25 +2,22 @@ package com.pdoyle.corestorage
 
 import com.google.common.truth.Truth
 import com.pdoyle.corestorage.log.CoreStorageLog
-import kotlinx.serialization.Serializable
 import okio.IOException
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
-import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import kotlin.io.path.createDirectories
-import kotlin.io.path.createParentDirectories
 import kotlin.io.path.deleteIfExists
 
 class CoreStorageImplTest {
 
-    private val testData = TestData()
+    private val TestStorageData = TestStorageData()
     private val testKey = "cache_key"
     private val testKey2 = "cache_key_2"
 
@@ -43,40 +40,40 @@ class CoreStorageImplTest {
     fun writeAndReadFileSuccess(memoryCache: MemoryCache) {
         val coreStorage = storageInstance(memoryCache)
 
-        coreStorage.put(testKey, testData)
+        coreStorage.put(testKey, TestStorageData)
 
-        val readData = coreStorage.get<TestData>(testKey)
-        Truth.assertThat(readData).isEqualTo(testData)
+        val readData = coreStorage.get<TestStorageData>(testKey)
+        Truth.assertThat(readData).isEqualTo(TestStorageData)
     }
 
     @ParameterizedTest
     @MethodSource("provideMemoryCacheImpls")
     fun writeAndDeleteFileSuccess(memoryCache: MemoryCache) {
         val coreStorage = storageInstance(memoryCache)
-        coreStorage.put(testKey, testData)
+        coreStorage.put(testKey, TestStorageData)
 
         coreStorage.remove(testKey)
 
-        Truth.assertThat(coreStorage.get<TestData>(testKey)).isNull()
+        Truth.assertThat(coreStorage.get<TestStorageData>(testKey)).isNull()
     }
 
     @Test
     fun errorFileWrite() {
         val storage = storageInstance()
-        val didPut = storage.put(testKey, testData, serialize = { _, _ ->
+        val didPut = storage.put(testKey, TestStorageData, serialize = { _, _ ->
             throw IOException("Fake error writing")
         })
 
         Truth.assertThat(didPut).isFalse()
-        Truth.assertThat(storage.get<TestData>(testKey)).isNull()
+        Truth.assertThat(storage.get<TestStorageData>(testKey)).isNull()
     }
 
     @Test
     fun errorFileRead() {
         val storage = storageInstance()
-        storage.put(testKey, testData)
+        storage.put(testKey, TestStorageData)
 
-        val defaultData = testData.copy(stringKey = "test_default_key")
+        val defaultData = TestStorageData.copy(stringKey = "test_default_key")
 
         val readDataNull = storage.getOrDefault(testKey2, defaultData, deserializer = {
             throw IOException("Fake error reading")
@@ -89,18 +86,18 @@ class CoreStorageImplTest {
     @MethodSource("provideMemoryCacheImpls")
     fun readFileKeyMissing(memoryCache: MemoryCache) {
         val coreStorage = storageInstance(memoryCache)
-        coreStorage.put(testKey, testData)
+        coreStorage.put(testKey, TestStorageData)
 
-        Truth.assertThat(coreStorage.get<TestData>(testKey2)).isNull()
+        Truth.assertThat(coreStorage.get<TestStorageData>(testKey2)).isNull()
     }
 
     @ParameterizedTest
     @MethodSource("provideMemoryCacheImpls")
     fun writeAndReadFileKeyMissingOrNull(memoryCache: MemoryCache) {
         val coreStorage = storageInstance(memoryCache)
-        coreStorage.put(testKey, testData)
+        coreStorage.put(testKey, TestStorageData)
 
-        val readData = coreStorage.get<TestData>(testKey2)
+        val readData = coreStorage.get<TestStorageData>(testKey2)
 
         Truth.assertThat(readData).isNull()
     }
@@ -109,7 +106,7 @@ class CoreStorageImplTest {
     fun writeDataIsCachedInMemory() {
         val memoryCache = DefaultMemoryCache()
         val coreStorage = storageInstance(memoryCache)
-        coreStorage.put(testKey, testData)
+        coreStorage.put(testKey, TestStorageData)
 
         val cacheContains = memoryCache.contains(testKey)
 
@@ -120,7 +117,7 @@ class CoreStorageImplTest {
     @MethodSource("provideMemoryCacheImpls")
     fun contains(memoryCache: MemoryCache) {
         val coreStorage = storageInstance(memoryCache)
-        coreStorage.put(testKey, testData)
+        coreStorage.put(testKey, TestStorageData)
 
         val cacheContainsKey1 = coreStorage.contains(testKey)
         val cacheContainsKey2 = coreStorage.contains(testKey2)
@@ -133,7 +130,7 @@ class CoreStorageImplTest {
     @MethodSource("provideMemoryCacheImpls")
     fun remove(memoryCache: MemoryCache) {
         val coreStorage = storageInstance(memoryCache)
-        coreStorage.put(testKey, testData)
+        coreStorage.put(testKey, TestStorageData)
 
         coreStorage.remove(testKey)
 
@@ -144,7 +141,7 @@ class CoreStorageImplTest {
     @MethodSource("provideMemoryCacheImpls")
     fun clear(memoryCache: MemoryCache) {
         val coreStorage = storageInstance(memoryCache)
-        coreStorage.put(testKey, testData)
+        coreStorage.put(testKey, TestStorageData)
 
         coreStorage.clear()
         Truth.assertThat(coreStorage.contains(testKey)).isFalse()
@@ -170,8 +167,8 @@ class CoreStorageImplTest {
     @Test
     fun getKeys() {
         val coreStorage = storageInstance()
-        coreStorage.put(testKey, testData)
-        coreStorage.put(testKey2, testData)
+        coreStorage.put(testKey, TestStorageData)
+        coreStorage.put(testKey2, TestStorageData)
 
         val keys = coreStorage.getKeys()
 
@@ -181,18 +178,18 @@ class CoreStorageImplTest {
     @Test
     fun defaultValue() {
         val coreStorage = storageInstance()
-        val defaultTestData = TestData(stringKey = "default value")
-        val readData = coreStorage.getOrDefault(testKey, defaultTestData)
+        val defaultTestStorageData = TestStorageData(stringKey = "default value")
+        val readData = coreStorage.getOrDefault(testKey, defaultTestStorageData)
 
-        Truth.assertThat(readData).isEqualTo(defaultTestData)
+        Truth.assertThat(readData).isEqualTo(defaultTestStorageData)
     }
 
     @Test
     fun getWithMigration() {
         val coreStorage = storageInstance()
-        val migratedData = TestData(stringKey = "default value")
-        val migration = object : CoreStorage.Migration<TestData> {
-            override fun get(): TestData {
+        val migratedData = TestStorageData(stringKey = "default value")
+        val migration = object : CoreStorage.Migration<TestStorageData> {
+            override fun get(): TestStorageData {
                 return migratedData
             }
 
@@ -202,7 +199,7 @@ class CoreStorageImplTest {
         }
         val readData = coreStorage.getWithMigration(testKey, migration)
 
-        val secondReadData = coreStorage.get<TestData>(testKey)
+        val secondReadData = coreStorage.get<TestStorageData>(testKey)
 
         Truth.assertThat(readData).isEqualTo(migratedData)
         Truth.assertThat(secondReadData).isEqualTo(migratedData)
@@ -221,10 +218,4 @@ class CoreStorageImplTest {
             )
         }
     }
-
-    @Serializable
-    private data class TestData(
-        private val stringKey: String = "string-value",
-        private val numberKey: Int = 4322,
-    )
 }

@@ -41,6 +41,11 @@ interface MemoryCache {
      * @return true the cache contains an key, false otherwise
      */
     fun contains(key: String): Boolean
+
+    /**
+     * @return true the cache contains an key, false otherwise
+     */
+    fun trim()
 }
 
 /**
@@ -90,4 +95,11 @@ internal class DefaultMemoryCache(val sizeLimit: Int = 25) : MemoryCache {
     override fun contains(key: String): Boolean {
         return map.contains(key)
     }
+
+    override fun trim() {
+        (0 until (sizeLimit / 2)).forEach { i ->
+            map.remove(map.keys.last())
+        }
+    }
+
 }

@@ -1,7 +1,16 @@
 package com.pdoyle.corestorage
 
 import com.pdoyle.corestorage.log.CoreStorageLog
+import okio.BufferedSink
+import okio.BufferedSource
+import okio.ByteString.Companion.encode
+import okio.ByteString.Companion.encodeUtf8
+import okio.buffer
+import okio.sink
+import okio.source
 import java.nio.charset.Charset
+import java.nio.file.Path
+import java.nio.file.StandardOpenOption
 import java.time.Instant
 import java.util.Collections
 import java.util.LinkedList
@@ -9,16 +18,6 @@ import java.util.Locale
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReadWriteLock
 import java.util.concurrent.locks.ReentrantReadWriteLock
-import okio.BufferedSink
-import okio.BufferedSource
-import okio.ByteString.Companion.encode
-import okio.ByteString.Companion.encodeUtf8
-import okio.appendingSink
-import okio.buffer
-import okio.sink
-import okio.source
-import java.nio.file.Path
-import java.nio.file.StandardOpenOption
 import kotlin.io.path.createFile
 import kotlin.io.path.deleteIfExists
 import kotlin.io.path.exists

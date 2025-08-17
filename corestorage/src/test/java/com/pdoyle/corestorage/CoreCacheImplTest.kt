@@ -2,7 +2,6 @@ package com.pdoyle.corestorage
 
 import com.google.common.truth.Truth
 import com.pdoyle.corestorage.log.CoreStorageLog
-import kotlinx.serialization.Serializable
 import okio.IOException
 import okio.buffer
 import okio.source
@@ -17,13 +16,12 @@ import java.time.Instant
 import java.util.Date
 import java.util.Locale
 import kotlin.io.path.createDirectories
-import kotlin.io.path.createParentDirectories
 import kotlin.io.path.deleteIfExists
 import kotlin.time.Duration.Companion.milliseconds
 
 class CoreCacheImplTest {
 
-    private val testData = TestData()
+    private val TestStorageData = TestStorageData()
     private val testKey = "cache_key"
     private val testKey2 = "cache_key_2"
 
@@ -46,41 +44,41 @@ class CoreCacheImplTest {
     fun writeAndReadFileSuccess(memoryCache: MemoryCache) {
         val coreCache = CoreCacheImpl(dir, memoryCache, cacheSize, logger)
 
-        coreCache.putNoExpire(testKey, testData)
+        coreCache.putNoExpire(testKey, TestStorageData)
 
-        val readData = coreCache.get<TestData>(testKey)
+        val readData = coreCache.get<TestStorageData>(testKey)
 
-        Truth.assertThat(readData).isEqualTo(testData)
+        Truth.assertThat(readData).isEqualTo(TestStorageData)
     }
 
     @ParameterizedTest
     @MethodSource("provideMemoryCacheImpls")
     fun writeAndDeleteFileSuccess(memoryCache: MemoryCache) {
         val coreCache = CoreCacheImpl(dir, memoryCache, cacheSize, logger)
-        coreCache.putNoExpire(testKey, testData)
+        coreCache.putNoExpire(testKey, TestStorageData)
 
         coreCache.remove(testKey)
 
-        Truth.assertThat(coreCache.get<TestData>(testKey)).isNull()
+        Truth.assertThat(coreCache.get<TestStorageData>(testKey)).isNull()
     }
 
     @Test
     fun errorFileWrite() {
         val storage = CoreCacheImpl(dir, NoMemoryCache, cacheSize, logger)
-        val didPut = storage.putNoExpire(testKey, testData, serialize = { _, _ ->
+        val didPut = storage.putNoExpire(testKey, TestStorageData, serialize = { _, _ ->
             throw IOException("Fake error writing")
         })
 
         Truth.assertThat(didPut).isFalse()
-        Truth.assertThat(storage.get<TestData>(testKey)).isNull()
+        Truth.assertThat(storage.get<TestStorageData>(testKey)).isNull()
     }
 
     @Test
     fun errorFileRead() {
         val storage = CoreCacheImpl(dir, NoMemoryCache, cacheSize, logger)
-        storage.putNoExpire(testKey, testData)
+        storage.putNoExpire(testKey, TestStorageData)
 
-        val defaultData = testData.copy(stringKey = "test_default_key")
+        val defaultData = TestStorageData.copy(stringKey = "test_default_key")
 
         val readDataNull = storage.getOrDefault(testKey, defaultData, deserializer = {
             throw IOException("Fake error reading")
@@ -93,18 +91,18 @@ class CoreCacheImplTest {
     @MethodSource("provideMemoryCacheImpls")
     fun readFileKeyMissing(memoryCache: MemoryCache) {
         val coreCache = CoreCacheImpl(dir, memoryCache, cacheSize, logger)
-        coreCache.putNoExpire(testKey, testData)
+        coreCache.putNoExpire(testKey, TestStorageData)
 
-        Truth.assertThat(coreCache.get<TestData>(testKey2)).isNull()
+        Truth.assertThat(coreCache.get<TestStorageData>(testKey2)).isNull()
     }
 
     @ParameterizedTest
     @MethodSource("provideMemoryCacheImpls")
     fun writeAndReadFileKeyMissingOrNull(memoryCache: MemoryCache) {
         val coreCache = CoreCacheImpl(dir, memoryCache, cacheSize, logger)
-        coreCache.putNoExpire(testKey, testData)
+        coreCache.putNoExpire(testKey, TestStorageData)
 
-        val readData = coreCache.get<TestData>(testKey2)
+        val readData = coreCache.get<TestStorageData>(testKey2)
 
         Truth.assertThat(readData).isNull()
     }
@@ -113,7 +111,7 @@ class CoreCacheImplTest {
     fun writeDataIsCachedInMemory() {
         val memoryCache = DefaultMemoryCache()
         val coreCache = CoreCacheImpl(dir, memoryCache, cacheSize, logger)
-        coreCache.putNoExpire(testKey, testData)
+        coreCache.putNoExpire(testKey, TestStorageData)
 
         val cacheContains = memoryCache.contains(testKey)
 
@@ -124,7 +122,7 @@ class CoreCacheImplTest {
     @MethodSource("provideMemoryCacheImpls")
     fun contains(memoryCache: MemoryCache) {
         val coreCache = CoreCacheImpl(dir, memoryCache, cacheSize, logger)
-        coreCache.putNoExpire(testKey, testData)
+        coreCache.putNoExpire(testKey, TestStorageData)
 
         val cacheContainsKey1 = coreCache.contains(testKey)
         val cacheContainsKey2 = coreCache.contains(testKey2)
@@ -137,7 +135,7 @@ class CoreCacheImplTest {
     @MethodSource("provideMemoryCacheImpls")
     fun remove(memoryCache: MemoryCache) {
         val coreCache = CoreCacheImpl(dir, memoryCache, cacheSize, logger)
-        coreCache.putNoExpire(testKey, testData)
+        coreCache.putNoExpire(testKey, TestStorageData)
 
         coreCache.remove(testKey)
 
@@ -174,8 +172,8 @@ class CoreCacheImplTest {
     @Test
     fun getKeys() {
         val coreCache = CoreCacheImpl(dir, defaultCache, cacheSize, logger)
-        coreCache.putNoExpire(testKey, testData)
-        coreCache.putNoExpire(testKey2, testData)
+        coreCache.putNoExpire(testKey, TestStorageData)
+        coreCache.putNoExpire(testKey2, TestStorageData)
 
         val keys = coreCache.getKeys()
 
@@ -185,59 +183,59 @@ class CoreCacheImplTest {
     @Test
     fun defaultValue() {
         val coreCache = CoreCacheImpl(dir, defaultCache, cacheSize, logger)
-        val defaultTestData = TestData(stringKey = "default value")
-        val readData = coreCache.getOrDefault(testKey, defaultTestData)
+        val defaultTestStorageData = TestStorageData(stringKey = "default value")
+        val readData = coreCache.getOrDefault(testKey, defaultTestStorageData)
 
-        Truth.assertThat(readData).isEqualTo(defaultTestData)
+        Truth.assertThat(readData).isEqualTo(defaultTestStorageData)
     }
 
     @Test
     fun noExpire() {
         val coreCache = CoreCacheImpl(dir, defaultCache, cacheSize, logger)
-        coreCache.putNoExpire(testKey, testData)
+        coreCache.putNoExpire(testKey, TestStorageData)
 
-        val readData = coreCache.get<TestData>(testKey)
-        Truth.assertThat(readData).isEqualTo(testData)
+        val readData = coreCache.get<TestStorageData>(testKey)
+        Truth.assertThat(readData).isEqualTo(TestStorageData)
     }
 
     @Test
     fun expires() {
         val coreCache = CoreCacheImpl(dir, defaultCache, cacheSize, logger)
-        coreCache.put(testKey, testData, Instant.now().minusMillis(500))
+        coreCache.put(testKey, TestStorageData, Instant.now().minusMillis(500))
 
         val cacheContainsKey1 = coreCache.contains(testKey)
         Truth.assertThat(cacheContainsKey1).isFalse()
 
-        val readData = coreCache.get<TestData>(testKey)
+        val readData = coreCache.get<TestStorageData>(testKey)
         Truth.assertThat(readData).isNull()
     }
 
     @Test
     fun expiresIn() {
         val coreCache = CoreCacheImpl(dir, defaultCache, cacheSize, logger)
-        coreCache.putExpiresIn(testKey, testData, 10.milliseconds)
-        coreCache.putExpiresIn(testKey2, testData, 100.milliseconds)
+        coreCache.putExpiresIn(testKey, TestStorageData, 10.milliseconds)
+        coreCache.putExpiresIn(testKey2, TestStorageData, 100.milliseconds)
 
         Thread.sleep(50)
 
         Truth.assertThat(coreCache.contains(testKey)).isFalse()
         Truth.assertThat(coreCache.contains(testKey2)).isTrue()
 
-        Truth.assertThat(coreCache.get<TestData>(testKey)).isNull()
-        Truth.assertThat(coreCache.get<TestData>(testKey2)).isNotNull()
+        Truth.assertThat(coreCache.get<TestStorageData>(testKey)).isNull()
+        Truth.assertThat(coreCache.get<TestStorageData>(testKey2)).isNotNull()
     }
 
     @Test
     fun expiresAt() {
         val coreCache = CoreCacheImpl(dir, defaultCache, cacheSize, logger)
-        coreCache.put(testKey, testData, Instant.now().minusMillis(5000))
-        coreCache.put(testKey2, testData, Instant.now().plusMillis(5000))
+        coreCache.put(testKey, TestStorageData, Instant.now().minusMillis(5000))
+        coreCache.put(testKey2, TestStorageData, Instant.now().plusMillis(5000))
 
         Truth.assertThat(coreCache.contains(testKey)).isFalse()
         Truth.assertThat(coreCache.contains(testKey2)).isTrue()
 
-        Truth.assertThat(coreCache.get<TestData>(testKey)).isNull()
-        Truth.assertThat(coreCache.get<TestData>(testKey2)).isNotNull()
+        Truth.assertThat(coreCache.get<TestStorageData>(testKey)).isNull()
+        Truth.assertThat(coreCache.get<TestStorageData>(testKey2)).isNotNull()
     }
 
     @ParameterizedTest
@@ -297,10 +295,4 @@ class CoreCacheImplTest {
             )
         }
     }
-
-    @Serializable
-    private data class TestData(
-        private val stringKey: String = "string-value",
-        private val numberKey: Int = 4322,
-    )
 }
