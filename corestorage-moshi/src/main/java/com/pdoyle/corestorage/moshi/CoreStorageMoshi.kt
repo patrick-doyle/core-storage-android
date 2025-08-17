@@ -1,27 +1,20 @@
-package com.pdoyle.corestorage
-
-import okio.BufferedSink
-import okio.BufferedSource
+package com.pdoyle.corestorage.moshi
 
 /**
  * Storage interface, that stores in the app data folders. This is not wiped when
  * the user clears the cache
  */
-interface CoreStorage {
+interface CoreStorageMoshi {
 
     /**
      * get the stored data, Returns null if no data present
      */
-    fun <T> get(key: String, deserializer: (bufferedSource: BufferedSource) -> T): T?
+    fun <T> get(key: String, clazz: Class<T>): T?
 
     /**
      * put data into storage
      */
-    fun <T> put(
-        key: String,
-        data: T,
-        serialize: (data: T, sink: BufferedSink) -> Unit,
-    ): Boolean
+    fun <T> put(key: String, data: T, clazz: Class<T>): Boolean
 
     /**
      * returns true if an entry is found

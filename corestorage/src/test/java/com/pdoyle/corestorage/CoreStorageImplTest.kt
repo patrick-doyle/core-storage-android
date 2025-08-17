@@ -188,7 +188,7 @@ class CoreStorageImplTest {
     fun getWithMigration() {
         val coreStorage = storageInstance()
         val migratedData = TestStorageData(stringKey = "default value")
-        val migration = object : CoreStorage.Migration<TestStorageData> {
+        val migration = object : CoreStorageMigration<TestStorageData> {
             override fun get(): TestStorageData {
                 return migratedData
             }

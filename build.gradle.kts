@@ -6,3 +6,10 @@ plugins {
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.android.junit5) apply false
 }
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}

@@ -41,7 +41,7 @@ inline fun <reified T> CoreStorage.put(key: String, data: T) {
  */
 inline fun <reified T> CoreStorage.getWithMigration(
     key: String,
-    migration: CoreStorage.Migration<T>,
+    migration: CoreStorageMigration<T>,
 ): T? {
     return getWithMigration(key, storageJsonDeserializer(), storageJsonSerializer(), migration)
 }
@@ -55,7 +55,7 @@ fun <T> CoreStorage.getWithMigration(
     key: String,
     deserializer: (source: BufferedSource) -> T,
     serialize: (data: T, sink: BufferedSink) -> Unit,
-    migration: CoreStorage.Migration<T>,
+    migration: CoreStorageMigration<T>,
 ): T? {
     val data = get(key, deserializer)
     if (data != null) {
