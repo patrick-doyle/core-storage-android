@@ -51,6 +51,8 @@ dependencies {
     testImplementation(libs.bundles.unitTests)
     testImplementation(libs.moshi.kotlin)
 
+    androidTestImplementation(libs.moshi.kotlin)
     androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.truth)
     androidTestImplementation(libs.androidx.espresso.core)
 }

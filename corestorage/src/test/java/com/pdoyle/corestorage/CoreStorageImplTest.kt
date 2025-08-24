@@ -165,6 +165,23 @@ class CoreStorageImplTest {
     }
 
     @Test
+    fun customSerializerOrDefault() {
+        val coreStorage = storageInstance()
+        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ENGLISH)
+
+        val testDate = Date()
+        coreStorage.put(testKey, testDate, serialize = { date, sink ->
+            sink.writeUtf8(formatter.format(date))
+        })
+
+        val readDate = coreStorage.getOrDefault(testKey, deserializer = { source ->
+            throw IOException("Test Error")
+        }, defaultValue = testDate)
+
+        Truth.assertThat(readDate).isEqualTo(testDate)
+    }
+
+    @Test
     fun getKeys() {
         val coreStorage = storageInstance()
         coreStorage.put(testKey, testStorageData)
