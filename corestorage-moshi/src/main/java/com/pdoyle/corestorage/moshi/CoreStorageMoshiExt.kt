@@ -45,5 +45,5 @@ inline fun <reified T> CoreStorageMoshi.getWithMigrationDefault(
     migration: CoreStorageMigration<T>,
     defaultValue: T
 ): T {
-    return getWithMigration(key, migration, defaultValue::class.java) ?: defaultValue
+    return getWithMigration(key, migration, T::class.java) ?: defaultValue
 }

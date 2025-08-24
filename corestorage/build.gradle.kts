@@ -13,7 +13,6 @@ android {
         minSdk = 26
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -51,8 +50,9 @@ dependencies {
     testFixturesImplementation(libs.okio)
     testFixturesImplementation(libs.kotlin.serialization.json)
 
+    testImplementation(platform(libs.junit.jupiter.bom))
     testImplementation(libs.bundles.unitTests)
-    testRuntimeOnly(libs.junit.jupiter.engine)
+    testRuntimeOnly(libs.junit.jupiter.launcher)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(testFixtures(project))

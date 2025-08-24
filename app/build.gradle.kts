@@ -52,8 +52,9 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
 
+    testImplementation(platform(libs.junit.jupiter.bom))
     testImplementation(libs.bundles.unitTests)
-    testImplementation(libs.junit.jupiter.engine)
+    testImplementation(libs.junit.jupiter.launcher)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

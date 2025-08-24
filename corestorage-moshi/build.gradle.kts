@@ -30,13 +30,26 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+    testOptions {
+        unitTests.all {
+            it.useJUnitPlatform()
+        }
+    }
+    @Suppress("UnstableApiUsage")
+    testFixtures.enable = true
 }
 
 dependencies {
 
     implementation(libs.okio)
-    implementation(libs.gson)
+    implementation(libs.moshi)
     implementation(project(":corestorage"))
+
+    testImplementation(platform(libs.junit.jupiter.bom))
+    testImplementation(testFixtures(project(":corestorage")))
+    testRuntimeOnly(libs.junit.jupiter.launcher)
+    testImplementation(libs.bundles.unitTests)
+    testImplementation(libs.moshi.kotlin)
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
