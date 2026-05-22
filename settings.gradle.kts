@@ -17,3 +17,4 @@ rootProject.name = "My Application"
 include(":app")
 include(":corestorage")
 include(":corestorage-moshi")
+include(":corestorage-gson")

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.pdoyle.corestorage.gson.CoreCacheGsonImplTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-05-22T20:11:26.825Z" hostname="DESKTOP-OMQBG1N" time="0.124">
+  <properties/>
+  <testcase name="expires()" classname="com.pdoyle.corestorage.gson.CoreCacheGsonImplTest" time="0.049"/>
+  <testcase name="remove()" classname="com.pdoyle.corestorage.gson.CoreCacheGsonImplTest" time="0.001"/>
+  <testcase name="defaultValue()" classname="com.pdoyle.corestorage.gson.CoreCacheGsonImplTest" time="0.0"/>
+  <testcase name="contains()" classname="com.pdoyle.corestorage.gson.CoreCacheGsonImplTest" time="0.001"/>
+  <testcase name="writeAndDeleteFileSuccess()" classname="com.pdoyle.corestorage.gson.CoreCacheGsonImplTest" time="0.001"/>
+  <testcase name="getKeys()" classname="com.pdoyle.corestorage.gson.CoreCacheGsonImplTest" time="0.007"/>
+  <testcase name="writeAndReadFileSuccess()" classname="com.pdoyle.corestorage.gson.CoreCacheGsonImplTest" time="0.003"/>
+  <testcase name="clear()" classname="com.pdoyle.corestorage.gson.CoreCacheGsonImplTest" time="0.001"/>
+  <testcase name="writeAndReadFileKeyMissingOrNull()" classname="com.pdoyle.corestorage.gson.CoreCacheGsonImplTest" time="0.0"/>
+  <testcase name="expiresAt()" classname="com.pdoyle.corestorage.gson.CoreCacheGsonImplTest" time="0.0"/>
+  <testcase name="expiresIn()" classname="com.pdoyle.corestorage.gson.CoreCacheGsonImplTest" time="0.056"/>
+  <testcase name="noExpire()" classname="com.pdoyle.corestorage.gson.CoreCacheGsonImplTest" time="0.0"/>
+  <testcase name="readFileKeyMissing()" classname="com.pdoyle.corestorage.gson.CoreCacheGsonImplTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

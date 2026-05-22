@@ -7,7 +7,7 @@ import com.pdoyle.corestorage.CoreStorageMigration
  * Gets the data from the storage
  */
 inline fun <reified T> CoreStorageMoshi.getOrDefault(key: String, defaultValue: T): T {
-    return get(key, defaultValue::class.java) ?: defaultValue
+    return get(key, T::class.java) ?: defaultValue
 }
 
 /**

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.pdoyle.corestorage.gson.CoreStorageGsonImplTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2026-05-22T20:11:26.951Z" hostname="DESKTOP-OMQBG1N" time="0.008">
+  <properties/>
+  <testcase name="getWithMigration()" classname="com.pdoyle.corestorage.gson.CoreStorageGsonImplTest" time="0.002"/>
+  <testcase name="remove()" classname="com.pdoyle.corestorage.gson.CoreStorageGsonImplTest" time="0.001"/>
+  <testcase name="defaultValue()" classname="com.pdoyle.corestorage.gson.CoreStorageGsonImplTest" time="0.0"/>
+  <testcase name="contains()" classname="com.pdoyle.corestorage.gson.CoreStorageGsonImplTest" time="0.0"/>
+  <testcase name="getKeys()" classname="com.pdoyle.corestorage.gson.CoreStorageGsonImplTest" time="0.001"/>
+  <testcase name="clear()" classname="com.pdoyle.corestorage.gson.CoreStorageGsonImplTest" time="0.001"/>
+  <testcase name="writeAndReadFileKeyMissingOrNull()" classname="com.pdoyle.corestorage.gson.CoreStorageGsonImplTest" time="0.0"/>
+  <testcase name="readFileKeyMissing()" classname="com.pdoyle.corestorage.gson.CoreStorageGsonImplTest" time="0.001"/>
+  <testcase name="getWithMigrationWithDefault()" classname="com.pdoyle.corestorage.gson.CoreStorageGsonImplTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

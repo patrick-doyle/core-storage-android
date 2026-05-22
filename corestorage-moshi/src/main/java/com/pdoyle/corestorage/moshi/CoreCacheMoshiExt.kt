@@ -7,7 +7,7 @@ import kotlin.time.Duration
  * Gets the data from the cache
  */
 inline fun <reified T> CoreCacheMoshi.getOrDefault(key: String, defaultValue: T): T {
-    return get(key, defaultValue::class.java) ?: defaultValue
+    return get(key, T::class.java) ?: defaultValue
 }
 
 /**
