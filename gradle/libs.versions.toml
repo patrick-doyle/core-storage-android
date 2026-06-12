@@ -17,6 +17,8 @@ mockk = "1.14.5"
 truth = "1.4.4"
 junitJupiter = "5.13.4"
 android-junit5 = "1.13.1.0"
+dagger = "2.56.2"
+ksp = "2.2.0-2.0.2"
 
 [libraries]
 okio = { module="com.squareup.okio:okio", version.ref = "okio"  }
@@ -33,6 +35,8 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 
 junit = { module = "junit:junit", version.ref = "junit" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
@@ -51,4 +55,5 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "android-junit5" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
