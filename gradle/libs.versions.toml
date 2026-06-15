@@ -19,6 +19,8 @@ junitJupiter = "5.13.4"
 android-junit5 = "1.13.1.0"
 dagger = "2.56.2"
 ksp = "2.2.0-2.0.2"
+composeBom = "2025.06.01"
+kotlinxCoroutines = "1.10.2"
 
 [libraries]
 okio = { module="com.squareup.okio:okio", version.ref = "okio"  }
@@ -38,6 +40,17 @@ gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui" }
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+
 junit = { module = "junit:junit", version.ref = "junit" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 mockk = { module = "io.mockk:mockk-android", version.ref = "mockk" }
@@ -56,4 +69,5 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-junit5 = { id = "de.mannodermaus.android-junit5", version.ref = "android-junit5" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 

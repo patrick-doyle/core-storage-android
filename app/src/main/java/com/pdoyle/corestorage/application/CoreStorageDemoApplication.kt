@@ -6,8 +6,7 @@ import com.pdoyle.corestorage.application.di.AppModule
 import com.pdoyle.corestorage.application.di.DaggerAppComponent
 
 class CoreStorageDemoApplication : Application() {
-
-    private lateinit var appComponent: AppComponent
+    lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()

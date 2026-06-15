@@ -3,8 +3,9 @@ package com.pdoyle.corestorage.application.di
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 
-@AppScope
+@Module
 class AppModule(private val context: Context) {
 
     @Reusable

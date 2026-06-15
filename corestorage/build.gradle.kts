@@ -47,9 +47,6 @@ dependencies {
     implementation(libs.kotlin.serialization.json)
     implementation(libs.okio)
 
-    testFixturesImplementation(libs.okio)
-    testFixturesImplementation(libs.kotlin.serialization.json)
-
     testImplementation(platform(libs.junit.jupiter.bom))
     testImplementation(libs.bundles.unitTests)
     testRuntimeOnly(libs.junit.jupiter.launcher)

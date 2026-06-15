@@ -50,7 +50,6 @@ dependencies {
     testRuntimeOnly(libs.junit.jupiter.launcher)
     testImplementation(libs.bundles.unitTests)
 
-    androidTestImplementation(libs.gson)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.truth)
     androidTestImplementation(libs.androidx.espresso.core)
