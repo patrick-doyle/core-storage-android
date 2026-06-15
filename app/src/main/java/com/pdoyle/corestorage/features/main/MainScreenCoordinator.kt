@@ -2,8 +2,8 @@ package com.pdoyle.corestorage.features.main
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
+import com.pdoyle.corestorage.features.common.launchCoroutine
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.launchIn
 
 class MainScreenCoordinator(
     private val scope: CoroutineScope,
@@ -13,12 +13,13 @@ class MainScreenCoordinator(
 
     override fun onCreate(owner: LifecycleOwner) {
         super.onCreate(owner)
-        view.saveData.events
-            .onEach(::handleEvent)
-            .launchIn(scope)
+        saveData()
     }
 
-    private fun handleEvent(event: MainScreenEvent) {
-
+    private fun saveData() {
+        view.listenForSaveData()
+            .launchCoroutine(scope) {
+                data.saveData()
+            }
     }
 }

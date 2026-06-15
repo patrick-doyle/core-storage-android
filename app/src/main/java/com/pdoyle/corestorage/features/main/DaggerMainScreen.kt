@@ -1,10 +1,10 @@
 package com.pdoyle.corestorage.features.main
 
 import androidx.lifecycle.lifecycleScope
+import com.pdoyle.corestorage.application.storeddata.GithubRepositories
 import dagger.Module
 import dagger.Provides
 import dagger.Subcomponent
-import kotlinx.coroutines.CoroutineScope
 import javax.inject.Scope
 
 @Scope
@@ -24,13 +24,14 @@ interface MainScreenComponent {
     }
 }
 
-
 @Module
-class MainScreenModule(private val activity: MainActivity) {
+class MainScreenModule(private val activity: MainScreenActivity) {
 
     @Provides
     @MainScreenScope
-    fun provideMainScreenData(): MainScreenData = MainScreenData()
+    fun provideMainScreenData(githubRepositories: GithubRepositories): MainScreenData {
+        return MainScreenData(githubRepositories)
+    }
 
     @Provides
     @MainScreenScope

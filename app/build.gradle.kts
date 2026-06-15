@@ -49,7 +49,7 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.kotlin.serialization.json)
     implementation(project(":corestorage"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
